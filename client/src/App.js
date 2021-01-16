@@ -11,6 +11,8 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Nav from './components/Nav';
 import Register from './pages/auth/Register';
 import Login from './pages/auth/Login';
+import { ToastContainer, toast } from 'react-toastify';
+import CompleteRegistrationn from './pages/auth/CompleteRegistration';
 const client = new ApolloClient({
   uri: 'http://localhost:8000/graphql'
 }); 
@@ -23,10 +25,12 @@ const  App = () => {
 
     <ApolloProvider client={client}>
       <Nav/>
+      <ToastContainer/>
       <Switch>
         <Route exact path="/" component={Home}/>
         <Route exact path="/register" component={Register}/>
         <Route exact path="/login" component={Login}/>
+        <Route exact path="/complete-registration" component={CompleteRegistrationn}/>
       </Switch> 
     </ApolloProvider>
   );

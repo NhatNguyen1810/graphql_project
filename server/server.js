@@ -5,6 +5,7 @@ const {ApolloServer} = require('apollo-server-express');
 const http = require('http'); 
 const path = require('path')
 const mongoose = require('mongoose');
+const {authCheck} = require('./helpers/auth'); 
 // imports
 
 
@@ -44,7 +45,14 @@ const {
 
 const apolloServer = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context: ({ req,res }) => {
+       
+        return {
+          req: req,
+          res:res
+        }
+    },
 })
 
 // applyMiddleWare
@@ -56,11 +64,12 @@ apolloServer.applyMiddleware({
 const httpServer = http.createServer(app);
 
 app.get('/rest', (req,res) => {
+    console.log(req.headers);
     res.send("hihi"); 
 })
 
 const port = process.env.PORT || 7000
-app.listen(port, () => {
+httpServer.listen(port, () => {
     console.log(`server is running on ${port}`)
     console.log(`server is running on ${apolloServer.graphqlPath}`)
 })
